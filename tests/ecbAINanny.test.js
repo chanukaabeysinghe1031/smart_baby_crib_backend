@@ -6,7 +6,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 beforeAll(async () => {
-  await mongoose.connect(process.env.DB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+  await mongoose.connect("mongodb+srv://admin:admin@cluster0.yk4m9vr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", { useNewUrlParser: true, useUnifiedTopology: true })
 })
 
 afterAll(async () => {
