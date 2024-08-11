@@ -40,7 +40,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 const jwtAuth = (req, res, next) => {
   const token = req.header("X-API-TOKEN");
 
-  if (token !== process.env.API_TOKEN) {
+  if (token !== "afkdaskfdhksjfh*sdjfdjkasfhbdjhfjk*jdfkjdahfak$dsfdafs") {
     return res.status(403).json({
       message: "Authentication failed. Invalid or missing API token.",
     });
