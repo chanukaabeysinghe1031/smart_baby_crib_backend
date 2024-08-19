@@ -21,7 +21,7 @@ dotenv.config();
 const app = express();
 // Connect to MongoDB
 mongoose
-  .connect("mongodb+srv://admin:admin@cluster0.yk4m9vr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
+  .connect(process.env.DB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -40,7 +40,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 const jwtAuth = (req, res, next) => {
   const token = req.header("X-API-TOKEN");
 
-  if (token !== "afkdaskfdhksjfh*sdjfdjkasfhbdjhfjk*jdfkjdahfak$dsfdafs") {
+  if (token !== process.env.API_TOKEN) {
     return res.status(403).json({
       message: "Authentication failed. Invalid or missing API token.",
     });

@@ -119,7 +119,12 @@ const router = express.Router();
 
 // Define routes
 router.get("/user/:id", jwtAuth, findAllByUser);
+router.get("/user/withoutJWT/:id", findAllByUser);
+
 router.get("/:id", jwtAuth, findOne);
+router.get("/withoutJWT/:id", findOne);
+
 router.post("/", jwtAuth, create);
+router.post("/withoutJWT/", create);
 
 export default router;

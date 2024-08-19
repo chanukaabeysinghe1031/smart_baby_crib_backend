@@ -75,10 +75,10 @@ export const deleteRecord = async (req, res) => {
 };
 
 export const addNewQuestion = async (req, res) => {
-  const { userId, question } = req.body;
+  const { sysUserId, question } = req.body;
 
   // Validate input
-  if (!userId || !question) {
+  if (!sysUserId || !question) {
     return res
       .status(400)
       .json({ message: "userId and question are required" });
@@ -89,7 +89,7 @@ export const addNewQuestion = async (req, res) => {
     const response = await axios.post(
       "https://smartbabyai2-dfgfeeevb6f6e2c6.eastus-01.azurewebsites.net/ask",
       {
-        userId,
+        sysUserId,
         question,
       }
     );
@@ -99,7 +99,7 @@ export const addNewQuestion = async (req, res) => {
 
     // Create a new record in MongoDB
     const newRecord = new ecbAiNanny({
-      sysUserId: userId,
+      sysUserId: sysUserId,
       userFedQuestion: question,
       sysResponse: sysResponse,
     });

@@ -1,34 +1,41 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 
-const ecbFingerPrintCurrentSchema = new mongoose.Schema({
-  etlDateTime: { type: Date, default: Date.now },
-  etlSequenceNo: { type: Number },
-  sysUserId: { type: Number, required: true },
-  userFedParent1FirstName: { type: String, required: true },
-  userFedParent2FirstName: { type: String, required: true },
-  sysBiometricTemplate1: { type: Buffer, required: true },
-  sysBiometricTemplate2: { type: Buffer, required: true },
-}, { timestamps: true })
+const ecbFingerPrintCurrentSchema = new mongoose.Schema(
+  {
+    etlDateTime: { type: Date, default: Date.now },
+    etlSequenceNo: { type: Number },
+    sysUserId: { type: Number, required: true },
+    sysBiometricTemplate1: { type: Buffer, required: true },
+    sysBiometricTemplate2: { type: Buffer, required: true },
+  },
+  { timestamps: true }
+);
 
-let autoIncrement = 1
+let autoIncrement = 1;
 
-ecbFingerPrintCurrentSchema.pre('save', async function(next) {
+ecbFingerPrintCurrentSchema.pre("save", async function (next) {
   if (this.isNew) {
-      try {
-          const docs = await this.constructor.find().sort({ etlSequenceNo: -1 }).limit(1);
-          if (docs.length > 0) {
-              autoIncrement = docs[0].etlSequenceNo + 1;
-          }
-          this.etlSequenceNo = autoIncrement;
-          next();
-      } catch (err) {
-          return next(err);
+    try {
+      const docs = await this.constructor
+        .find()
+        .sort({ etlSequenceNo: -1 })
+        .limit(1);
+      if (docs.length > 0) {
+        autoIncrement = docs[0].etlSequenceNo + 1;
       }
+      this.etlSequenceNo = autoIncrement;
+      next();
+    } catch (err) {
+      return next(err);
+    }
   } else {
-      next()
+    next();
   }
-})
+});
 
-const ecbFingerPrintCurrent = mongoose.model('EcbFingerPrintCurrent', ecbFingerPrintCurrentSchema)
+const ecbFingerPrintCurrent = mongoose.model(
+  "EcbFingerPrintCurrent",
+  ecbFingerPrintCurrentSchema
+);
 
-export default ecbFingerPrintCurrent
+export default ecbFingerPrintCurrent;
