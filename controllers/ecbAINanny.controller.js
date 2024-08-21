@@ -120,7 +120,6 @@ export const addNewQuestion = async (req, res) => {
     // Create a new record in MongoDB
     const newRecord = new ecbAiNanny({
       sysUserId: sysUserId,
-      userFedQuestion: question,
       userFedVQuestion: question,
       sysResponse: sysResponse,
       weight,
