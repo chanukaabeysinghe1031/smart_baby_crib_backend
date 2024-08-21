@@ -38,6 +38,43 @@ export const create = async (req, res) => {
 };
 
 // Update a record by user id
+export const update = async (req, res) => {
+  try {
+    const { sysUserId, etlSequenceNo } = req.body;
+    const updatedData = await ecbAiNanny.findOneAndUpdate(
+      { sysUserId: sysUserId, etlSequenceNo: etlSequenceNo },
+      req.body,
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedData) {
+      return res.status(404).json({ message: "Data not found" });
+    }
+
+    res.status(200).json(updatedData);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
+// Delete a record by sysUserId and etlSequenceNo
+export const deleteRecord = async (req, res) => {
+  try {
+    const { sysUserId, etlSequenceNo } = req.body;
+    const deletedData = await ecbAiNanny.findOneAndDelete({
+      sysUserId: sysUserId,
+      etlSequenceNo: etlSequenceNo,
+    });
+    if (!deletedData) {
+      return res.status(404).json({ message: "Data not found" });
+    }
+    res.status(200).json({ message: "Record deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// Update a record by user id
 export const addNewQuestion = async (req, res) => {
   const {
     sysUserId,
@@ -84,6 +121,7 @@ export const addNewQuestion = async (req, res) => {
     const newRecord = new ecbAiNanny({
       sysUserId: sysUserId,
       userFedQuestion: question,
+      userFedVQuestion: question,
       sysResponse: sysResponse,
       weight,
       height,
