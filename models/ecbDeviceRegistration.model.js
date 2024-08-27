@@ -14,6 +14,7 @@ const ecbDeviceRegisterationSchema = new mongoose.Schema(
   {
     etlDateTime: { type: Date, default: Date.now },
     etlSequenceNo: { type: Number },
+    userFedParentFirstName: { type: String, required: true },
     userFedStrollerModelNo: { type: String, required: true },
     sysUserId: { type: Number, required: true },
   },
